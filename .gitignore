@@ -1,1 +1,3 @@
-desafio-vagrant/
+desafio-vagrant/.vagrant/*
+vagrant/.vagrant/*
+vagrant/html/*
