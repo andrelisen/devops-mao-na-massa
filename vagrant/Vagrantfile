@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+
+  #Cria um forward de porta, da porta 80 da minha VM para a 8080 da minha maquina
+  #O apache estará executando na porta 80(guest)
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  #Indico um arquivo de bash externo com o código para iniciar o apache e copiar os arquivos
+  config.vm.provision "shell", path: "provision.sh"
+
+  #corrigir o problema do vbguest + como sincronizar a pasta do html da minha máquina para a VM
+  config.vbguest.auto_update = false
+  config.vbguest.installer_options = { allow_kernel_upgrade: true }
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+end
